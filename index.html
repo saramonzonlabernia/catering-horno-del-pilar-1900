@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horno del Pilar - Pastelería Tradicional</title>
+    <style>
+        :root {
+            --primary: #8B4513;
+            --secondary: #D2691E;
+            --accent: #A0522D;
+            --light: #F5F5DC;
+            --dark: #3E2723;
+            --success: #4CAF50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .logo span {
+            display: block;
+            font-size: 14px;
+            font-weight: normal;
+            margin-top: 5px;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            background: none;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .nav-btn.active {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .section {
+            display: none;
+            padding: 20px 0;
+            min-height: calc(100vh - 120px);
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 30px 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg " width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%238B4513" opacity="0.1"/></svg>');
+        }
+        
+        .hero h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .hero p {
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .cta-button {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(139, 69, 19, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .cta-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 5px rgba(139, 69, 19, 0.3);
+        }
+        
+        .step-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .step {
+            display: none;
+        }
+        
+        .step.active {
+            display: block;
+        }
+        
+        .step-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--primary);
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        select, input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .service-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        
+        .service-card:hover {
+            border-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .service-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .service-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        
+        .service-includes {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .service-includes ul {
+            padding-left: 20px;
+        }
+        
+        .service-includes li {
+            margin-bottom: 5px;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #eee;
+        }
+        
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            flex: 1;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--accent);
+        }
+        
+        .btn-secondary {
+            background: #eee;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #ddd;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .gallery-item {
+            width: 100%;
+            height: 150px;
+            border-radius: 5px;
+            object-fit: cover;
+            background: #ddd;
+        }
+        
+        .contact-info {
+            margin-top: 20px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 30px;
+        }
+        
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 100;
+            cursor: pointer;
+        }
+        
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+        
+        .whatsapp-float img {
+            width: 35px;
+            height: 35px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                max-width: 750px;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        /* ===== ESTILOS DEL CARRITO ===== */
+        .product-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .product-item:last-child {
+            border-bottom: none;
+        }
+        
+        .product-info {
+            flex: 1;
+            padding-right: 10px;
+        }
+        
+        .product-name {
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 14px;
+        }
+        
+        .product-price {
+            color: var(--secondary);
+            font-size: 13px;
+            font-weight: bold;
+        }
+        
+        .product-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .quantity-input {
+            width: 60px;
+            padding: 8px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .add-to-cart {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+        
+        .add-to-cart:hover {
+            background: var(--accent);
+        }
+        
+        .cart-summary {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border: 2px solid var(--secondary);
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+            padding: 3px 0;
+        }
+        
+        .cart-total {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--secondary);
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid #ddd;
+        }
+        
+        .error-message {
+            color: #ff0000;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .product-category {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .product-category h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        /* ===== ESTILOS PARA LOGOS DE CLIENTES ===== */
+        .logo-cliente {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo-cliente:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: var(--secondary);
+        }
+
+        .logo-cliente canvas {
+            width: 100%;
+            height: 80px;
+            margin-bottom: 10px;
+        }
+
+        .logo-cliente p {
+            font-size: 14px;
+            color: var(--dark);
+            font-weight: 500;
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .logo-cliente {
+                padding: 15px;
+            }
+            .logo-cliente canvas {
+                height: 60px;
+            }
+            .logo-cliente p {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <div class="logo">
+                    CATERING HORNO DEL PILAR
+                    <span>Pastelería Tradicional desde 1900</span>
+                </div>
+            </div>
+            <nav>
+                <button class="nav-btn active" data-target="home">Inicio</button>
+                <button class="nav-btn" data-target="presupuesto">Presupuesto</button>
+                <button class="nav-btn" data-target="colaboraciones">Colaboraciones</button>
+                <button class="nav-btn" data-target="galeria">Galería</button>
+                <button class="nav-btn" data-target="contacto">Contacto</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- SECCIÓN INICIO -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <h1>Catering Horno del Pilar</h1>
+                <p>Pastelería tradicional valenciana con más de 50 años de experiencia, desde 1900</p>
+                <p>Especialistas en catering para empresas, Fallas, cumpleaños y celebraciones</p>
+                <button class="cta-button" id="start-budget">Presupuesto Express</button>
+            </div>
+
+            <!-- CARTA COMPLETA DE PRODUCTOS -->
+            <div class="step-container">
+                <h2>🍽️ Nuestra Carta Completa</h2>
+                <p style="text-align: center; color: #666; margin-bottom: 20px;">Todos nuestros productos artesanos</p>
+                
+                <!-- ENTRANTES FRÍOS -->
+                <div class="service-card" style="cursor: default; background: linear-gradient(to right, #fff, #f9f9f9);">
+                    <div class="service-title" style="color: var(--secondary); font-size: 20px;">🥘 Entrantes Fríos</div>
+                    <div class="service-includes">
+                        <ul style="columns: 2; column-gap: 20px;">
+                            <li>Bandeja de Jamón Ibérico D.O. Teruel (200 gr): <strong>18,00 €</strong></li>
+                            <li>Bandeja de Jamón Ibérico Bellota D.O. Guijuelo (200 gr): <strong>29,00 €</strong></li>
+                            <li>Bandeja de Embutido Ibérico Variado: <strong>30,00 €</strong></li>
+                            <li>Bandeja de Quesos Variados con Nueces y Membrillo: <strong>25,00 €</strong></li>
+                            <li>Bandeja de Patés Variados (3 clases): <strong>22,00 €</strong></li>
+                            <li>Bol de Esgarraet: <strong>18,00 €</strong></li>
+                            <li>Bol de Ajoarriero: <strong>18,00 €</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- SELECCIÓN DE PANES -->
+                <div class="service-card" style="cursor: default; background: linear-gradient(to right, #fff, #f9f9f9);">
+                    <div class="service-title" style="color: var(--secondary); font-size: 20px;">🍞 Selección de Panes</div>
+                    <div class="service-includes">
+                        <ul>
+                            <li>Bandeja de Pan Normal Cortado: <strong>4,00 €</strong></li>
+                            <li>Bandeja de Pan Variado Cortado: <strong>6,00 €</strong></li>
+                            <li>Bandeja de Pan Tostado Cortado: <strong>5,00 €</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- OPCIONES SALADAS -->
+                <div class="service-card" style="cursor: default; background: linear-gradient(to right, #fff, #f9f9f9);">
+                    <div class="service-title" style="color: var(--secondary); font-size: 20px;">🥪 Opciones Saladas</div>
+                    <div class="service-includes">
+                        <ul style="columns: 2; column-gap: 20px;">
+                            <li>Tortilla de Patata Mediana: <strong>12,00 €</strong></li>
+                            <li>Sándwich Grande Vegetal con Atún: <strong>4,00 €</strong></li>
+                            <li>Sándwich Tostado de Jamón, Queso y Bechamel: <strong>4,00 €</strong></li>
+                            <li>Mini Croissant Vegetal con Atún: <strong>1,80 €</strong></li>
+                            <li>Mini Croissant Jamón York, Queso y Bechamel: <strong>1,80 €</strong></li>
+                            <li>Mini Croissant Mantequilla y Salmón: <strong>1,80 €</strong></li>
+                            <li>Mini Croissant de Ensaladilla de Cangrejo: <strong>1,80 €</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- MEDIAS NOCHES Y PULGUITAS -->
+                <div class="service-card" style="cursor: default; background: linear-gradient(to right, #fff, #f9f9f9);">
+                    <div class="service-title" style="color: var(--secondary); font-size: 20px;">🥖 Medias Noches y Pulguitas</div>
+                    <div class="service-includes">
+                        <ul style="columns: 2; column-gap: 20px;">
+                            <li>Medias Noches Variadas: <strong>1,80 €</strong></li>
+                            <li style="font-size: 12px; color: #888;">(Nocilla, Jamón York y Queso, Ensalada de Cangrejo, Salmón y Mantequilla)</li>
+                            <li>Pulguitas Variadas: <strong>1,80 €</strong></li>
+                            <li style="font-size: 12px; color: #888;">(Ibéricos, Embutido, Embutido con Habas, Atún con Olivas, Longaniza con Pisto, Almussafes)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- CANAPÉS Y BROCHETAS -->
+                <div class="service-card" style="cursor: default; background: linear-gradient(to right, #fff, #f9f9f9);">
+                    <div class="service-title" style="color: var(--secondary); font-size: 20px;">🍢 Canapés y Brochetas</div>
+                    <div class="service-includes">
+                        <ul>
+                            <li>Canapés Variados (unidad): <strong>1,50 €</strong></li>
+                            <li>Brocheta Salada (Tomate, Mozzarella y Anchoa): <strong>1,80 €</strong></li>
+                            <li>Brocheta de Fruta: <strong>2,00 €</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- ESPECIALIDADES SALADAS -->
+                <div class="service-card" style="cursor: default; background: linear-gradient(to right, #fff, #f9f9f9);">
+                    <div class="service-title" style="color: var(--secondary); font-size: 20px;">🥟 Especialidades Saladas</div>
+                    <div class="service-includes">
+                        <ul style="columns: 2; column-gap: 20px;">
+                            <li>Tartaleta Variada (unidad): <strong>0,90 €</strong></li>
+                            <li>Empanadilla Variada (unidad): <strong>0,90 €</strong></li>
+                            <li>Mini Pizzas Variadas (unidad): <strong>0,90 €</strong></li>
+                            <li>Mini Croissants Variados (unidad): <strong>0,90 €</strong></li>
+                            <li>Pepitos Variados (Pisto, Verdura, Carne, Cebolla con Sepia): <strong>3,00 €</strong></li>
+                            <li>Croquetas Variadas (unidad): <strong>0,90 €</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- EMPANADAS ARTESANAS -->
+                <div class="service-card" style="cursor: default; background: linear-gradient(to right, #fff, #f9f9f9);">
+                    <div class="service-title" style="color: var(--secondary); font-size: 20px;">🥐 Empanadas Artesanas</div>
+                    <div class="service-includes">
+                        <ul>
+                            <li>Empanadas Variadas (Pisto, Verdura, Barbacoa, 4 Quesos, Jamón y Queso): <strong>18,00 €</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- SELECCIÓN DULCE -->
+                <div class="service-card" style="cursor: default; background: linear-gradient(to right, #fff, #f9f9f9);">
+                    <div class="service-title" style="color: var(--secondary); font-size: 20px;">🍰 Selección Dulce</div>
+                    <div class="service-includes">
+                        <ul style="columns: 2; column-gap: 20px;">
+                            <li>Miniaturas Dulces Variadas (unidad): <strong>1,25 €</strong></li>
+                            <li>Banda de Manzana y Nuez: <strong>18,00 €</strong></li>
+                            <li>Banda de Manzana: <strong>18,00 €</strong></li>
+                            <li>Pastas de Té: <strong>20,00 €</strong></li>
+                            <li>Palmeras Mini: <strong>15,00 €</strong></li>
+                            <li>Bollería Mini (Caracola, Ensaimada, Croissant): <strong>0,90 €</strong></li>
+                            <li>Mini Cookies de Chocolate: <strong>0,90 €</strong></li>
+                            <li>Tarta Personalizada o por kilo: <strong>25,00 €</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- SERVICIOS ADICIONALES -->
+                <div class="service-card" style="cursor: default; background: linear-gradient(to right, #fff, #f9f9f9); border: 2px solid var(--secondary);">
+                    <div class="service-title" style="color: var(--secondary); font-size: 22px;">⭐ Servicios Adicionales</div>
+                    <div class="service-includes">
+                        <ul style="columns: 2; column-gap: 20px;">
+                            <li><strong>Coffee Break Básico:</strong> termo de café y leche, pieza de salado, pieza de bollería, agua o zumo, sacarina o azúcar y menaje desechable (por persona): <strong>8,00 €</strong></li>
+                            <li><strong>Coffee Break Premium:</strong> termo de café y leche, pieza de salado, pieza de bollería, minibocadillo, fruta, agua o zumo, sacarina o azúcar y menaje desechable (por persona): <strong>12,00 €</strong></li>
+                            <li><strong>Menú Completo:</strong> 3 entrantes, plato principal (arroz al horno), fruta o dulce, bebida y menaje desechable (por persona): <strong>25,00 €</strong></li>
+                            <li><strong>Horas de Camarero:</strong> <strong>20,00 €/hora</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN PRESUPUESTO (EL WIZARD) -->
+        <section id="presupuesto" class="section">
+            <div class="step-container">
+                <!-- PASO 1: INFORMACIÓN DEL EVENTO -->
+                <div id="step1" class="step active">
+                    <h2 class="step-title">Información de tu evento</h2>
+                    
+                    <div class="form-group">
+                        <label for="event-type">Tipo de evento *</label>
+                        <select id="event-type" required>
+                            <option value="">Selecciona un tipo de evento</option>
+                            <option value="empresa">Empresa</option>
+                            <option value="fallas">Fallas</option>
+                            <option value="cumpleanos">Cumpleaños</option>
+                            <option value="boda">Boda</option>
+                            <option value="comunion">Comunión</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                        <div class="error-message" id="event-type-error">Por favor, selecciona un tipo de evento</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="event-date">Fecha del evento *</label>
+                        <input type="date" id="event-date" required>
+                        <div class="error-message" id="event-date-error">Por favor, selecciona una fecha</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="people-count">Número de personas *</label>
+                        <input type="number" id="people-count" min="1" value="20" required>
+                        <div class="error-message" id="people-count-error">Por favor, introduce un número válido de personas</div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-secondary" id="cancel-budget">Cancelar</button>
+                        <button class="btn btn-primary" id="next-to-step2">Siguiente</button>
+                    </div>
+                </div>
+
+                <!-- PASO 2: SELECCIÓN DE PRODUCTOS -->
+                <div id="step2" class="step">
+                    <h2 class="step-title">Selecciona tus productos</h2>
+                    <p style="text-align: center; color: #666; margin-bottom: 20px;">Elige los productos y cantidades para tu evento</p>
+                    
+                    <div id="cart-summary" class="cart-summary hidden">
+                        <h4 style="color: var(--primary); margin-bottom: 10px;">🛒 Resumen del carrito</h4>
+                        <div id="cart-items"></div>
+                        <div class="cart-total" id="cart-total">Total: 0,00 €</div>
+                    </div>
+
+                    <div class="product-category">
+                        <h3>🥘 Entrantes Fríos</h3>
+                        <div id="entrantes-list"></div>
+                    </div>
+
+                    <div class="product-category">
+                        <h3>🍞 Panes</h3>
+                        <div id="panes-list"></div>
+                    </div>
+
+                    <div class="product-category">
+                        <h3>🥪 Opciones Saladas</h3>
+                        <div id="saladas-list"></div>
+                    </div>
+
+                    <div class="product-category">
+                        <h3>🥖 Medias Noches y Pulguitas</h3>
+                        <div id="medias-list"></div>
+                    </div>
+
+                    <div class="product-category">
+                        <h3>🍢 Canapés y Brochetas</h3>
+                        <div id="canapes-list"></div>
+                    </div>
+
+                    <div class="product-category">
+                        <h3>🥟 Especialidades Saladas</h3>
+                        <div id="especialidades-list"></div>
+                    </div>
+
+                    <div class="product-category">
+                        <h3>🥐 Empanadas Artesanas</h3>
+                        <div id="empanadas-list"></div>
+                    </div>
+
+                    <div class="product-category">
+                        <h3>🍰 Selección Dulce</h3>
+                        <div id="dulces-list"></div>
+                    </div>
+
+                    <div class="product-category">
+                        <h3>⭐ Servicios Adicionales</h3>
+                        <div id="servicios-list"></div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-secondary" id="back-to-step1">Atrás</button>
+                        <button class="btn btn-primary" id="next-to-step3">Siguiente</button>
+                    </div>
+                </div>
+
+                <!-- PASO 3: DATOS DE CONTACTO Y RESUMEN -->
+                <div id="step3" class="step">
+                    <h2 class="step-title">Finalizar presupuesto</h2>
+                    
+                    <div id="summary-details"></div>
+                    
+                    <div class="form-group">
+                        <label for="client-name">Tu nombre completo *</label>
+                        <input type="text" id="client-name" required>
+                        <div class="error-message" id="client-name-error">Por favor, introduce tu nombre</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="client-phone">Teléfono de contacto *</label>
+                        <input type="tel" id="client-phone" required>
+                        <div class="error-message" id="client-phone-error">Por favor, introduce un teléfono válido</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="client-email">Email (opcional)</label>
+                        <input type="email" id="client-email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="comments">Comentarios adicionales</label>
+                        <textarea id="comments" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-secondary" id="back-to-step2">Atrás</button>
+                        <button class="btn btn-primary" id="send-whatsapp">Enviar por WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN COLABORACIONES (NUEVA) -->
+        <section id="colaboraciones" class="section">
+            <div class="step-container">
+                <h2>🤝 Nuestros Clientes y Colaboradores</h2>
+                <p style="text-align: center; color: #666; margin-bottom: 30px;">
+                    Más de 50 años confiando en nosotros para sus eventos más importantes
+                </p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                    
+                    <!-- DIPUTACIÓN DE VALENCIA -->
+                    <div class="logo-cliente" data-text="Diputación de Valencia">
+                        <canvas width="300" height="80"></canvas>
+                    </div>
+
+                    <!-- CAIXABANK -->
+                    <div class="logo-cliente" data-text="CaixaBank">
+                        <canvas width="300" height="80"></canvas>
+                    </div>
+
+                    <!-- LABPYME -->
+                    <div class="logo-cliente" data-text="LABPYME">
+                        <canvas width="300" height="80"></canvas>
+                    </div>
+
+                    <!-- UMIVALE PREVENCIÓN -->
+                    <div class="logo-cliente" data-text="Umivale Prevención">
+                        <canvas width="300" height="80"></canvas>
+                    </div>
+
+                    <!-- PLAZA DE TOROS -->
+                    <div class="logo-cliente" data-text="Plaza de Toros de Valencia">
+                        <canvas width="300" height="80"></canvas>
+                    </div>
+
+                    <!-- FALLAS Y ASOCIACIONES -->
+                    <div class="logo-cliente" data-text="Fallas y Asociaciones">
+                        <canvas width="300" height="80"></canvas>
+                    </div>
+
+                    <!-- MUVIN -->
+                    <div class="logo-cliente" data-text="MUVIN">
+                        <canvas width="300" height="80"></canvas>
+                    </div>
+
+                    <!-- COLEGIO ESCOLAPIAS -->
+                    <div class="logo-cliente" data-text="Colegio Escolapias">
+                        <canvas width="300" height="80"></canvas>
+                    </div>
+
+                    <!-- HOSPITALES DE VALENCIA -->
+                    <div class="logo-cliente" data-text="Hospitales de Valencia">
+                        <canvas width="300" height="80"></canvas>
+                    </div>
+
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px; padding: 20px; background: #f9f9f9; border-radius: 10px; border: 2px solid var(--secondary);">
+                    <p style="color: var(--primary); font-size: 18px; font-weight: bold;">
+                        ¿Quieres aparecer en esta lista?
+                    </p>
+                    <p style="color: #666; margin-bottom: 15px;">
+                        Únete a nuestros clientes más prestigiosos. Contáctanos y diseñamos tu evento a medida.
+                    </p>
+                    <button class="cta-button" onclick="goToPresupuesto()">Solicitar Presupuesto</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN GALERÍA -->
+        <!-- SECCIÓN GALERÍA (PON TUS FOTOS AQUÍ) -->
+<section id="galeria" class="section">
+    <div class="step-container">
+        <h2>Galería de nuestros productos</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 20px;">Algunos de nuestros productos y eventos realizados</p>
+        
+        <div class="gallery">
+            
+                        <img src="fotos/caixa2.jpg" class="gallery-item" alt="Producto 1">
+            
+                        <img src="fotos/caixa.jpg" class="gallery-item" alt="Producto 2">
+            
+            
+            <img src="fotos/arroz al horno.jpg" class="gallery-item" alt="Producto 3">
+            
+            
+            <img src="fotos/desayuno diputacion.jpg" class="gallery-item" alt="Producto 4">
+            
+           
+            <img src="fotos/horchata.jpg" class="gallery-item" alt="Producto 5">
+            
+           		             
+        </div>
+        
+        <p style="text-align: center; margin-top: 20px;">
+            Síguenos en Facebook: 
+            <a href="https://facebook.com/hornodelpilar " target="_blank">hornodelpilar</a>
+        </p>
+    </div>
+</section>
+
+        <!-- SECCIÓN CONTACTO -->
+        <section id="contacto" class="section">
+            <div class="step-container">
+                <h2>Contacta con nosotros</h2>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <strong>Dirección</strong><br>
+                            Valencia, España
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <strong>Teléfono / WhatsApp</strong><br>
+                            <a href="tel:607949917" style="color: var(--primary); font-weight: bold;">607 94 99 17</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">✉️</div>
+                        <div>
+                            <strong>Email</strong><br>
+                            <a href="mailto:info@hornopasteleriaelpilar.com" style="color: var(--primary);">info@hornopasteleriaelpilar.com</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">🕒</div>
+                        <div>
+                            <strong>Horario</strong><br>
+                            Lunes a viernes de 7:00 am a 20:00 pm<br>
+                            Sábados, domingos y festivos de 9:00 a 15:00
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">🌐</div>
+                        <div>
+                            <strong>Página Web</strong><br>
+                            <a href="https://www.hornopasteleriaelpilar.com " style="color: var(--primary);" target="_blank">www.hornopasteleriaelpilar.com</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; text-align: center;">
+                    <button class="cta-button" onclick="goToPresupuesto()">Solicitar Presupuesto</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2023 Horno del Pilar - Pastelería Tradicional Valenciana</p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/34607949917" target="_blank" class="whatsapp-float">
+        <svg viewBox="0 0 24 24" fill="white" width="35" height="35">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.88 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+    </a>
+
+    <script>
+        // ====== DATOS DE PRODUCTOS ======
+        const productos = {
+            entrantes: [
+                { id: 'entrante1', nombre: 'Bandeja de Jamón Ibérico D.O. Teruel (200 gr)', precio: 18.00 },
+                { id: 'entrante2', nombre: 'Bandeja de Jamón Ibérico Bellota D.O. Guijuelo (200 gr)', precio: 29.00 },
+                { id: 'entrante3', nombre: 'Bandeja de Embutido Ibérico Variado', precio: 30.00 },
+                { id: 'entrante4', nombre: 'Bandeja de Quesos Variados con Nueces y Membrillo', precio: 25.00 },
+                { id: 'entrante5', nombre: 'Bandeja de Patés Variados (3 clases)', precio: 22.00 },
+                { id: 'entrante6', nombre: 'Bol de Esgarraet', precio: 18.00 },
+                { id: 'entrante7', nombre: 'Bol de Ajoarriero', precio: 18.00 }
+            ],
+            panes: [
+                { id: 'pan1', nombre: 'Bandeja de Pan Normal Cortado', precio: 4.00 },
+                { id: 'pan2', nombre: 'Bandeja de Pan Variado Cortado', precio: 6.00 },
+                { id: 'pan3', nombre: 'Bandeja de Pan Tostado Cortado', precio: 5.00 }
+            ],
+            saladas: [
+                { id: 'salada1', nombre: 'Tortilla de Patata Mediana', precio: 12.00 },
+                { id: 'salada2', nombre: 'Sándwich Grande Vegetal con Atún', precio: 4.00 },
+                { id: 'salada3', nombre: 'Sándwich Tostado de Jamón, Queso y Bechamel', precio: 4.00 },
+                { id: 'salada4', nombre: 'Mini Croissant Vegetal con Atún', precio: 1.80 },
+                { id: 'salada5', nombre: 'Mini Croissant Jamón York, Queso y Bechamel', precio: 1.80 },
+                { id: 'salada6', nombre: 'Mini Croissant Mantequilla y Salmón', precio: 1.80 },
+                { id: 'salada7', nombre: 'Mini Croissant de Ensaladilla de Cangrejo', precio: 1.80 }
+            ],
+            medias: [
+                { id: 'media1', nombre: 'Medias Noches Variadas', precio: 1.80 },
+                { id: 'pulguita1', nombre: 'Pulguitas Variadas', precio: 1.80 }
+            ],
+            canapes: [
+                { id: 'canape1', nombre: 'Canapés Variados (unidad)', precio: 1.50 },
+                { id: 'brocheta1', nombre: 'Brocheta Salada (Tomate, Mozzarella y Anchoa)', precio: 1.80 },
+                { id: 'brocheta2', nombre: 'Brocheta de Fruta', precio: 2.00 }
+            ],
+            especialidades: [
+                { id: 'tartaleta1', nombre: 'Tartaleta Variada (unidad)', precio: 0.90 },
+                { id: 'empanadilla1', nombre: 'Empanadilla Variada (unidad)', precio: 0.90 },
+                { id: 'pizza1', nombre: 'Mini Pizzas Variadas (unidad)', precio: 0.90 },
+                { id: 'croissant1', nombre: 'Mini Croissants Variados (unidad)', precio: 0.90 },
+                { id: 'pepito1', nombre: 'Pepitos Variados (Pisto, Verdura, Carne, Cebolla con Sepia)', precio: 3.00 },
+                { id: 'croqueta1', nombre: 'Croquetas Variadas (unidad)', precio: 0.90 }
+            ],
+            empanadas: [
+                { id: 'empanada1', nombre: 'Empanadas Variadas (Pisto, Verdura, Barbacoa, 4 Quesos, Jamón y Queso)', precio: 18.00 }
+            ],
+            dulces: [
+                { id: 'miniatura1', nombre: 'Miniaturas Dulces Variadas (unidad)', precio: 1.25 },
+                { id: 'banda1', nombre: 'Banda de Manzana y Nuez', precio: 18.00 },
+                { id: 'banda2', nombre: 'Banda de Manzana', precio: 18.00 },
+                { id: 'pasta1', nombre: 'Pastas de Té', precio: 20.00 },
+                { id: 'palmera1', nombre: 'Palmeras Mini', precio: 15.00 },
+                { id: 'bolleria1', nombre: 'Bollería Mini (Caracola, Ensaimada, Croissant)', precio: 0.90 },
+                { id: 'cookie1', nombre: 'Mini Cookies de Chocolate', precio: 0.90 },
+                { id: 'tarta1', nombre: 'Tarta Personalizada o por kilo', precio: 25.00 }
+            ],
+            servicios: [
+                { id: 'coffee-basic', nombre: 'Coffee Break Básico (por persona)', precio: 8.00 },
+                { id: 'coffee-premium', nombre: 'Coffee Break Premium (por persona)', precio: 12.00 },
+                { id: 'menu-completo', nombre: 'Menú Completo (por persona)', precio: 25.00 },
+                { id: 'camarero', nombre: 'Horas de Camarero (por hora)', precio: 20.00 }
+            ]
+        };
+        
+        let cart = {};
+        let peopleCount = 0;
+        let eventType = '';
+        let eventDate = '';
+        
+        // ======= GENERADOR AUTOMÁTICO DE LOGOS =======
+        function generarLogoCanvas() {
+            const elementos = document.querySelectorAll('.logo-cliente');
+            
+            elementos.forEach(elemento => {
+                const canvas = elemento.querySelector('canvas');
+                const texto = elemento.getAttribute('data-text');
+                
+                if (canvas && texto) {
+                    const ctx = canvas.getContext('2d');
+                    const width = canvas.width;
+                    const height = canvas.height;
+                    
+                    // Limpiar canvas
+                    ctx.clearRect(0, 0, width, height);
+                    
+                    // Fondo blanco
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.fillRect(0, 0, width, height);
+                    
+                    // Borde gris claro
+                    ctx.strokeStyle = '#DDDDDD';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(0, 0, width, height);
+                    
+                    // Texto negro centrado
+                    ctx.fillStyle = '#3E2723';
+                    ctx.font = 'bold 20px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    
+                    // Dividir texto en líneas si es muy largo
+                    const palabras = texto.split(' ');
+                    const lineas = [];
+                    let lineaActual = '';
+                    
+                    palabras.forEach(palabra => {
+                        const prueba = lineaActual + (lineaActual ? ' ' : '') + palabra;
+                        const ancho = ctx.measureText(prueba).width;
+                        
+                        if (ancho > width - 20) {
+                            lineas.push(lineaActual);
+                            lineaActual = palabra;
+                        } else {
+                            lineaActual = prueba;
+                        }
+                    });
+                    lineas.push(lineaActual);
+                    
+                    // Dibujar líneas centradas
+                    const alturaLinea = 25;
+                    const alturaTotal = lineas.length * alturaLinea;
+                    const inicioY = height / 2 - alturaTotal / 2 + alturaLinea / 2;
+                    
+                    lineas.forEach((linea, index) => {
+                        ctx.fillText(linea, width / 2, inicioY + index * alturaLinea);
+                    });
+                    
+                    // Crear título debajo del canvas
+                    const titulo = document.createElement('p');
+                    titulo.textContent = texto;
+                    if (!elemento.querySelector('p')) {
+                        elemento.appendChild(titulo);
+                    }
+                }
+            });
+        }
+        
+        // ====== NAVEGACIÓN ======
+        document.querySelectorAll('.nav-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const target = button.getAttribute('data-target');
+                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+                button.classList.add('active');
+                document.getElementById(target).classList.add('active');
+                
+                // Generar logos cuando se muestra la sección de colaboraciones
+                if (target === 'colaboraciones') {
+                    generarLogoCanvas();
+                }
+            });
+        });
+        
+        function goToPresupuesto() {
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('[data-target="presupuesto"]').classList.add('active');
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.getElementById('presupuesto').classList.add('active');
+            resetBudgetWizard();
+        }
+
+        function goToBudget() {
+            goToPresupuesto();
+        }
+        
+        document.getElementById('start-budget').addEventListener('click', goToBudget);
+        document.getElementById('cancel-budget').addEventListener('click', () => {
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('[data-target="home"]').classList.add('active');
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.getElementById('home').classList.add('active');
+        });
+        
+        // ====== VALIDACIONES ======
+        function showError(fieldId, show) {
+            const error = document.getElementById(fieldId + '-error');
+            if(error) error.style.display = show ? 'block' : 'none';
+        }
+        
+        function validateStep1() {
+            let isValid = true;
+            eventType = document.getElementById('event-type').value;
+            eventDate = document.getElementById('event-date').value;
+            peopleCount = parseInt(document.getElementById('people-count').value);
+            
+            if (!eventType) { showError('event-type', true); isValid = false; } else showError('event-type', false);
+            if (!eventDate) { showError('event-date', true); isValid = false; } else showError('event-date', false);
+            if (!peopleCount || peopleCount < 1) { showError('people-count', true); isValid = false; } else showError('people-count', false);
+            
+            return isValid;
+        }
+        
+        function validateStep3() {
+            let isValid = true;
+            const clientName = document.getElementById('client-name').value;
+            const clientPhone = document.getElementById('client-phone').value;
+            
+            if (!clientName.trim()) { showError('client-name', true); isValid = false; } else showError('client-name', false);
+            if (!clientPhone.trim()) { showError('client-phone', true); isValid = false; } else showError('client-phone', false);
+            
+            return isValid;
+        }
+        
+        // ====== GENERAR LISTA DE PRODUCTOS ======
+        function renderProductList(containerId, productosLista) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            productosLista.forEach(producto => {
+                const div = document.createElement('div');
+                div.className = 'product-item';
+                div.innerHTML = `
+                    <div class="product-info">
+                        <div class="product-name">${producto.nombre}</div>
+                        <div class="product-price">${producto.precio.toFixed(2)} €</div>
+                    </div>
+                    <div class="product-controls">
+                        <input type="number" class="quantity-input" id="qty-${producto.id}" min="0" value="0" data-id="${producto.id}" data-precio="${producto.precio}" data-nombre="${producto.nombre}">
+                        <button class="add-to-cart" data-id="${producto.id}" data-precio="${producto.precio}" data-nombre="${producto.nombre}">Añadir</button>
+                    </div>
+                `;
+                container.appendChild(div);
+                
+                // Evento para el campo de cantidad
+                const qtyInput = div.querySelector('.quantity-input');
+                qtyInput.addEventListener('input', (e) => {
+                    const qty = parseInt(e.target.value) || 0;
+                    if (qty > 0) {
+                        cart[producto.id] = {
+                            nombre: producto.nombre,
+                            precio: producto.precio,
+                            cantidad: qty
+                        };
+                    } else {
+                        delete cart[producto.id];
+                    }
+                    updateCartSummary();
+                });
+                
+                // Evento para el botón Añadir
+                const addBtn = div.querySelector('.add-to-cart');
+                addBtn.addEventListener('click', () => {
+                    const input = document.getElementById(`qty-${producto.id}`);
+                    let currentQty = parseInt(input.value) || 0;
+                    currentQty++;
+                    input.value = currentQty;
+                    
+                    cart[producto.id] = {
+                        nombre: producto.nombre,
+                        precio: producto.precio,
+                        cantidad: currentQty
+                    };
+                    updateCartSummary();
+                });
+            });
+        }
+        
+        // ====== ACTUALIZAR RESUMEN DEL CARRITO ======
+        function updateCartSummary() {
+            const cartSummary = document.getElementById('cart-summary');
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            
+            if (!cartSummary || !cartItems || !cartTotal) return;
+            
+            if (Object.keys(cart).length === 0) {
+                cartSummary.style.display = 'none';
+                return;
+            }
+            
+            cartSummary.style.display = 'block';
+            cartItems.innerHTML = '';
+            
+            let total = 0;
+            
+            Object.keys(cart).forEach(id => {
+                const item = cart[id];
+                const subtotal = item.precio * item.cantidad;
+                total += subtotal;
+                
+                const div = document.createElement('div');
+                div.className = 'cart-item';
+                div.innerHTML = `
+                    <span>${item.nombre} x${item.cantidad}</span>
+                    <span>${subtotal.toFixed(2)} €</span>
+                `;
+                cartItems.appendChild(div);
+            });
+            
+            cartTotal.textContent = `Total: ${total.toFixed(2)} €`;
+        }
+        
+        // ====== PASO 1 A PASO 2 ======
+        document.getElementById('next-to-step2').addEventListener('click', () => {
+            if (validateStep1()) {
+                renderProductList('entrantes-list', productos.entrantes);
+                renderProductList('panes-list', productos.panes);
+                renderProductList('saladas-list', productos.saladas);
+                renderProductList('medias-list', productos.medias);
+                renderProductList('canapes-list', productos.canapes);
+                renderProductList('especialidades-list', productos.especialidades);
+                renderProductList('empanadas-list', productos.empanadas);
+                renderProductList('dulces-list', productos.dulces);
+                renderProductList('servicios-list', productos.servicios);
+                
+                document.getElementById('step1').classList.remove('active');
+                document.getElementById('step2').classList.add('active');
+            }
+        });
+        
+        document.getElementById('back-to-step1').addEventListener('click', () => {
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step1').classList.add('active');
+        });
+        
+        // ====== PASO 2 A PASO 3 ======
+        document.getElementById('next-to-step3').addEventListener('click', () => {
+            if (Object.keys(cart).length === 0) {
+                alert('Por favor, selecciona al menos un producto para tu evento');
+                return;
+            }
+            
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step3').classList.add('active');
+            updateFinalSummary();
+        });
+        
+        document.getElementById('back-to-step2').addEventListener('click', () => {
+            document.getElementById('step3').classList.remove('active');
+            document.getElementById('step2').classList.add('active');
+        });
+        
+        // ====== RESUMEN FINAL ======
+        function updateFinalSummary() {
+            const summaryElement = document.getElementById('summary-details');
+            if (!summaryElement) return;
+            
+            let eventTypeName = '';
+            switch(eventType) {
+                case 'empresa': eventTypeName = 'Empresa'; break;
+                case 'fallas': eventTypeName = 'Fallas'; break;
+                case 'cumpleanos': eventTypeName = 'Cumpleaños'; break;
+                case 'boda': eventTypeName = 'Boda'; break;
+                case 'comunion': eventTypeName = 'Comunión'; break;
+                case 'otro': eventTypeName = 'Otro'; break;
+            }
+            
+            const formattedDate = new Date(eventDate).toLocaleDateString('es-ES', {
+                year: 'numeric', month: 'long', day: 'numeric'
+            });
+            
+            let html = `
+                <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                    <div class="summary-item">
+                        <span><strong>Tipo de evento:</strong></span>
+                        <span>${eventTypeName}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span><strong>Fecha:</strong></span>
+                        <span>${formattedDate}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span><strong>Número de personas:</strong></span>
+                        <span>${peopleCount}</span>
+                    </div>
+                </div>
+                
+                <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">📋 Productos seleccionados:</h3>
+            `;
+            
+            let total = 0;
+            Object.keys(cart).forEach(id => {
+                const item = cart[id];
+                const subtotal = item.precio * item.cantidad;
+                total += subtotal;
+                html += `
+                    <div class="summary-item" style="font-size: 14px;">
+                        <span>${item.nombre} x${item.cantidad}</span>
+                        <span>${subtotal.toFixed(2)} €</span>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    <div class="summary-total" style="font-size: 16px;">
+                        <span><strong>Total estimado:</strong></span>
+                        <span style="color: var(--secondary);">${total.toFixed(2)} €</span>
+                    </div>
+                </div>
+            `;
+            
+            summaryElement.innerHTML = html;
+        }
+        
+        // ====== ENVIAR WHATSAPP ======
+        document.getElementById('send-whatsapp').addEventListener('click', () => {
+            if (!validateStep3()) return;
+            
+            const clientName = document.getElementById('client-name').value;
+            const clientPhone = document.getElementById('client-phone').value;
+            const clientEmail = document.getElementById('client-email').value;
+            const comments = document.getElementById('comments').value;
+            
+            let eventTypeName = '';
+            switch(eventType) {
+                case 'empresa': eventTypeName = 'Empresa'; break;
+                case 'fallas': eventTypeName = 'Fallas'; break;
+                case 'cumpleanos': eventTypeName = 'Cumpleaños'; break;
+                case 'boda': eventTypeName = 'Boda'; break;
+                case 'comunion': eventTypeName = 'Comunión'; break;
+                case 'otro': eventTypeName = 'Otro'; break;
+            }
+            
+            const formattedDate = new Date(eventDate).toLocaleDateString('es-ES');
+            
+            let message = `🎂 *HORNO DEL PILAR - SOLICITUD DE PRESUPUESTO* 🎂
+
+👤 *Cliente:* ${clientName}
+📱 *Teléfono:* ${clientPhone}`;
+            
+            if (clientEmail) {
+                message += `\n📧 *Email:* ${clientEmail}`;
+            }
+
+            message += `
+
+🎉 *DETALLES DEL EVENTO:*
+• Tipo: ${eventTypeName}
+• Fecha: ${formattedDate}
+• Número de personas: ${peopleCount}
+
+🍰 *PRODUCTOS SELECCIONADOS:*\n`;
+            
+            let total = 0;
+            Object.keys(cart).forEach(id => {
+                const item = cart[id];
+                const subtotal = item.precio * item.cantidad;
+                total += subtotal;
+                message += `• ${item.nombre} - ${item.cantidad} unidad(es) - ${subtotal.toFixed(2)} €\n`;
+            });
+            
+            message += `\n💶 *PRESUPUESTO TOTAL ESTIMADO:* ${total.toFixed(2)} €`;
+
+            if (comments) {
+                message += `\n\n📝 *COMENTARIOS:*\n${comments}`;
+            }
+            
+            message += `\n\n¿Podrían confirmarme disponibilidad y enviarme el presupuesto definitivo? ¡Gracias!`;
+            
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/34607949917?text= ${encodedMessage}`, '_blank');
+        });
+        
+        // ====== RESETEAR ======
+        function resetBudgetWizard() {
+            cart = {};
+            peopleCount = 0;
+            eventType = '';
+            eventDate = '';
+            
+            document.getElementById('event-type').selectedIndex = 0;
+            document.getElementById('event-date').value = '';
+            document.getElementById('people-count').value = '20';
+            document.getElementById('client-name').value = '';
+            document.getElementById('client-phone').value = '';
+            document.getElementById('client-email').value = '';
+            document.getElementById('comments').value = '';
+            
+            document.querySelectorAll('.error-message').forEach(error => error.style.display = 'none');
+            
+            document.getElementById('step1').classList.add('active');
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step3').classList.remove('active');
+            
+            // Limpiar lista de productos
+            Object.keys(productos).forEach(category => {
+                const containerId = `${category}-list`;
+                const container = document.getElementById(containerId);
+                if (container) container.innerHTML = '';
+            });
+        }
+        
+        // ====== INICIALIZACIÓN ======
+        const today = new Date();
+        const formattedToday = today.toISOString().split('T')[0];
+        document.getElementById('event-date').min = formattedToday;
+        
+        // Generar logos al cargar si estamos en la sección de colaboraciones
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.getElementById('home').classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('[data-target="home"]').classList.add('active');
+        });
+    </script>
+</body>
+</html>
